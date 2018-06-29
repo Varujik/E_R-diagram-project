@@ -1,0 +1,14 @@
+c:\users\computer\Documents\Visual Studio 2015\Projects\ER_W\ER_W\bin\Debug\ER_W.exe.config
+c:\users\computer\Documents\Visual Studio 2015\Projects\ER_W\ER_W\bin\Debug\ER_W.exe
+c:\users\computer\Documents\Visual Studio 2015\Projects\ER_W\ER_W\bin\Debug\ER_W.pdb
+c:\users\computer\Documents\Visual Studio 2015\Projects\ER_W\ER_W\obj\Debug\ER_W.csprojResolveAssemblyReference.cache
+c:\users\computer\Documents\Visual Studio 2015\Projects\ER_W\ER_W\obj\Debug\MainWindow.g.cs
+c:\users\computer\Documents\Visual Studio 2015\Projects\ER_W\ER_W\obj\Debug\App.g.cs
+c:\users\computer\Documents\Visual Studio 2015\Projects\ER_W\ER_W\obj\Debug\ER_W_MarkupCompile.cache
+c:\users\computer\Documents\Visual Studio 2015\Projects\ER_W\ER_W\obj\Debug\ER_W_MarkupCompile.lref
+c:\users\computer\Documents\Visual Studio 2015\Projects\ER_W\ER_W\obj\Debug\MainWindow.baml
+c:\users\computer\Documents\Visual Studio 2015\Projects\ER_W\ER_W\obj\Debug\ER_W.g.resources
+c:\users\computer\Documents\Visual Studio 2015\Projects\ER_W\ER_W\obj\Debug\ER_W.Properties.Resources.resources
+c:\users\computer\Documents\Visual Studio 2015\Projects\ER_W\ER_W\obj\Debug\ER_W.csproj.GenerateResource.Cache
+c:\users\computer\Documents\Visual Studio 2015\Projects\ER_W\ER_W\obj\Debug\ER_W.exe
+c:\users\computer\Documents\Visual Studio 2015\Projects\ER_W\ER_W\obj\Debug\ER_W.pdb
