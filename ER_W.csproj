@@ -56,6 +56,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Relation.cs" />
+    <Compile Include="RelationAttribute.cs" />
     <Compile Include="RelationType.cs" />
     <Compile Include="Shape.cs" />
     <Page Include="MainWindow.xaml">

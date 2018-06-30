@@ -11,3 +11,4 @@ C:\Users\computer\Documents\Visual Studio 2015\Projects\ER_W\ER_W\obj\Release\ER
 C:\Users\computer\Documents\Visual Studio 2015\Projects\ER_W\ER_W\obj\Release\ER_W.csproj.GenerateResource.Cache
 C:\Users\computer\Documents\Visual Studio 2015\Projects\ER_W\ER_W\obj\Release\ER_W.exe
 C:\Users\computer\Documents\Visual Studio 2015\Projects\ER_W\ER_W\obj\Release\ER_W.pdb
+C:\Users\computer\Documents\Visual Studio 2015\Projects\ER_W\ER_W\obj\Release\ER_W.csprojResolveAssemblyReference.cache

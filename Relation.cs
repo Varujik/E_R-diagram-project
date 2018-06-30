@@ -13,29 +13,31 @@ namespace ER_W
 {
     public class Relation : Shape
     {
-        private const int rhombusWidth = 100;
-        private const int rhombusHeight = 100;
-        public const int labelWidth = rhombusWidth / 2 - 15;
-        public const int labelHeight = (rhombusHeight / 4);
+        public const int rhombusWidth = 100;
+        public const int rhombusHeight = 100;
+        private const int labelWidth = rhombusWidth / 2 - 15;
+        private const int labelHeight = (rhombusHeight / 4);
         private Label TypeLabel;
         private RelationType Type { get; set; }
+        private Line LineOne { get; set; }
+        private Line LineTwo { get; set; }
+
         public static Relation SelectedRelation { get; set; }
         public static Relation ChangeableRelation { get; set; }
 
         public Entity FirstEntity { get; set; }
         public Entity SecondEntity { get; set; }
         public int RelationID { get; set; }
-
-        Line LineOne { get; set; }
-        Line LineTwo { get; set; }
-
+        public List<RelationAttribute> Attributes { get; set; }
+        
         public Line EntityOneCardinalOne;
-        public Line EntityTwoCardinalOne; // used
-
-        public Ellipse EntityOneCardinalZero; // used
+        public Line EntityTwoCardinalOne;
+        public Ellipse EntityOneCardinalZero; 
         public Ellipse EntityTwoCardinalZero;
+        
 
-        Image RhombusImage { get; set; }
+
+        public Image RhombusImage { get; set; }
 
         public bool isMoveConnection = false;
 
@@ -47,6 +49,7 @@ namespace ER_W
                 SecondEntity = SE;
                 this.RelationID = ID;
                 //this.Name = "1:N";//"Relation" + this.RelationID;
+                Attributes = new List<RelationAttribute>();
                 ConnectEntities(FE.PositionX, FE.PositionY, SE.PositionX, SE.PositionY);
 
                 RhombusImage.MouseDown += RhombusImage_MouseDown;
@@ -56,7 +59,6 @@ namespace ER_W
             {
                 MessageBox.Show(ex.Message);
             }
-
         }
 
         private void RhombusImage_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -111,8 +113,6 @@ namespace ER_W
             RhombusImage.Stretch = Stretch.Fill;
             PositionX = (FirstEntity.PositionX + SecondEntity.PositionX) / 2;
             PositionY = (FirstEntity.PositionY + SecondEntity.PositionY) / 2;
-
-
 
             LineOne = new Line
             {
@@ -180,14 +180,24 @@ namespace ER_W
 
         public void Move(double X, double Y)
         {
+            var differenceX = this.PositionX;
+            var differenceY = this.PositionY;
             this.PositionX = X - rhombusWidth / 2;
             this.PositionY = Y - rhombusHeight / 2;
+
+            differenceX = this.PositionX - differenceX;
+            differenceY = this.PositionY - differenceY;
             Canvas.SetLeft(Relation.SelectedRelation.RhombusImage, PositionX);
             Canvas.SetTop(Relation.SelectedRelation.RhombusImage, PositionY);
             Canvas.SetLeft(this.TypeLabel, PositionX + labelWidth);
             Canvas.SetTop(this.TypeLabel, PositionY + labelHeight - labelHeight / 2);
 
             this.UpdateConnection();
+
+            foreach(var attribute in Attributes)
+            {
+                attribute.Move(attribute.PositionX + differenceX, attribute.PositionY + differenceY, true);
+            }
         }
 
         public Point GetClosestCoordinates(double entityX, double entityY, double rhombusX, double rhombusY)
@@ -318,6 +328,12 @@ namespace ER_W
                     return "N:M";
             }
             return "";
+        }
+
+        public void AddAttribute()
+        {
+            RelationAttribute newAttribute = new RelationAttribute(this);
+            this.Attributes.Add(newAttribute);
         }
     }
 }

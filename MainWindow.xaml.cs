@@ -13,6 +13,10 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+/*
+ * Contact:
+ * Email: varujik10@gmail.com
+ */
 namespace ER_W
 {
     public partial class MainWindow : Window
@@ -30,30 +34,8 @@ namespace ER_W
             InitializeComponent();
             this.RelationPropertiesVisibility(Visibility.Hidden);
             this.EntityPropertiesVisibility(Visibility.Hidden);
-            Entity.Canvas = canvas;
-            Entity.Window = mainWindow;
-
-            Relation.Canvas = canvas;
-            Relation.Window = mainWindow;
-
-            //Relation.f(new Point(450, 50), new Point(700, 100));
-            //var LineTwo = new Line
-            //{
-            //    Stroke = Brushes.Black,
-            //    StrokeThickness = 2,
-            //    Fill = Brushes.Transparent,
-            //    X1 = 450,
-            //    Y1 = 50,
-            //    X2 = 700,
-            //    Y2 = 100
-            //};
-            //Relation r = new ER_W.Relation(null, null, 1);
-            //Function f = r.GetLinearFunction(new Point(400, 50), new Point(700, 50));
-            //MessageBox.Show(f.K + " : " + f.B);
-            //Point B = r.GetPointCoordinatesOnDistance(f.K, f.B, new Point(400, 500), 100);
-
-            //label1.Content = B.X + " : " + B.Y;
-            //canvas.Children.Add(LineTwo);
+            Shape.Canvas = canvas;
+            Shape.Window = mainWindow;
         }
 
         private void createEntityBtn_Click(object sender, RoutedEventArgs e)
@@ -92,6 +74,10 @@ namespace ER_W
             if (Relation.SelectedRelation != null && Relation.SelectedRelation.isMoveConnection)
             {
                 Relation.SelectedRelation.Move(e.GetPosition(canvas).X, e.GetPosition(canvas).Y);
+            }
+            if (RelationAttribute.SelectedAttribute != null && RelationAttribute.SelectedAttribute.isMoveAttribute)
+            {
+                RelationAttribute.SelectedAttribute.Move(e.GetPosition(canvas).X, e.GetPosition(canvas).Y, null);
             }
         }
 
@@ -141,6 +127,8 @@ namespace ER_W
 
             firstEntityLabel.Visibility = type;
             secondEntityLabel.Visibility = type;
+
+            addAttributeBtn.Visibility = type;
         }
 
         public void EntityPropertiesVisibility(Visibility type)
@@ -197,6 +185,11 @@ namespace ER_W
         {
             ComboBox combobox = sender as ComboBox;
             Relation.ChangeableRelation.ChangeRelationType((combobox.SelectedItem as Label).Content.ToString());
+        }
+
+        private void addAttributeBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Relation.ChangeableRelation.AddAttribute();
         }
     }
 }
