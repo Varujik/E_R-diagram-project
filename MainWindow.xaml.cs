@@ -34,6 +34,7 @@ namespace ER_W
             InitializeComponent();
             this.RelationPropertiesVisibility(Visibility.Hidden);
             this.EntityPropertiesVisibility(Visibility.Hidden);
+            this.AttributePropertiesVisibility(Visibility.Hidden);
             Shape.Canvas = canvas;
             Shape.Window = mainWindow;
         }
@@ -47,7 +48,6 @@ namespace ER_W
         {
             isConnectionEnabled = true;
         }
-
         private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (isDrawEntity)
@@ -135,10 +135,14 @@ namespace ER_W
         {
             entityNameLabel.Visibility = type;
             entityNameTxtbox.Visibility = type;
-
-            
         }
 
+        public void AttributePropertiesVisibility(Visibility type)
+        {
+            attributeNameLabel.Visibility = type;
+            attributeNameTxtbox.Visibility = type;
+
+        }
         private void entityNameTxtbox_KeyUp(object sender, KeyEventArgs e)
         {
             Entity.ChangeableEntity.ChangeEntityName(entityNameTxtbox.Text);
@@ -190,6 +194,11 @@ namespace ER_W
         private void addAttributeBtn_Click(object sender, RoutedEventArgs e)
         {
             Relation.ChangeableRelation.AddAttribute();
+        }
+
+        private void attributeNameTxtbox_KeyUp(object sender, KeyEventArgs e)
+        {
+            RelationAttribute.ChangeableAttribute.ChangeAttributeName(attributeNameTxtbox.Text);
         }
     }
 }

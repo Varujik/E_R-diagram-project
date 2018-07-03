@@ -14,8 +14,8 @@ namespace ER_W
     {
         public const int entityWidth = 200;
         public const int entityHeight = 100;
-        public const int labelWidth = entityWidth / 2;
-        public const int labelHeight = (entityHeight / 2) - 10;
+        public const int labelWidth = entityWidth;
+        public const int labelHeight = (entityHeight / 2);
         public static Entity SelectedEntity { get; set; }
         public static Entity ChangeableEntity { get; set; }
 
@@ -63,12 +63,15 @@ namespace ER_W
                 Content = this.Name,
                 Width = labelWidth,
                 Height = labelHeight,
-                Background = new SolidColorBrush(Colors.Green)
+                //Background = new SolidColorBrush(Colors.Green),
+                HorizontalContentAlignment = HorizontalAlignment.Center
             };
             Canvas.SetLeft(Rectangle, PositionX);
             Canvas.SetTop(Rectangle, PositionY);
             Canvas.SetLeft(NameLabel, PositionX);
-            Canvas.SetTop(NameLabel, PositionY);
+            Canvas.SetTop(NameLabel, PositionY + (entityHeight / 4));
+            Canvas.SetZIndex(Rectangle, (int)2);
+            Canvas.SetZIndex(NameLabel, (int)1);
 
             Canvas.Children.Add(Rectangle);
             Canvas.Children.Add(NameLabel);
@@ -118,6 +121,7 @@ namespace ER_W
 
                     Window.EntityPropertiesVisibility(Visibility.Visible);
                     Window.RelationPropertiesVisibility(Visibility.Hidden);
+                    Window.AttributePropertiesVisibility(Visibility.Hidden);
                     Window.entityNameTxtbox.Text = this.Name;
                 }
             }
@@ -135,9 +139,9 @@ namespace ER_W
             Canvas.SetLeft(this.Rectangle, PositionX);
             Canvas.SetTop(this.Rectangle, PositionY);
             Canvas.SetLeft(this.NameLabel, PositionX);
-            Canvas.SetTop(this.NameLabel, PositionY);
+            Canvas.SetTop(NameLabel, PositionY + (entityHeight / 4));
 
-            foreach(Relation relation in Relations)
+            foreach (Relation relation in Relations)
                 relation.UpdateConnection();
         }
         public void ChangeEntityName(string newName)

@@ -15,8 +15,10 @@ namespace ER_W
     {
         public const int rhombusWidth = 100;
         public const int rhombusHeight = 100;
-        private const int labelWidth = rhombusWidth / 2 - 15;
-        private const int labelHeight = (rhombusHeight / 4);
+        public const int cardinalZeroWidth = 30;
+        public const int cardinalZeroHeight = 30;
+        private const int labelWidth = rhombusWidth / 2;
+        private const int labelHeight = rhombusHeight / 2;
         private Label TypeLabel;
         private RelationType Type { get; set; }
         private Line LineOne { get; set; }
@@ -29,7 +31,6 @@ namespace ER_W
         public Entity SecondEntity { get; set; }
         public int RelationID { get; set; }
         public List<RelationAttribute> Attributes { get; set; }
-        
         public Line EntityOneCardinalOne;
         public Line EntityTwoCardinalOne;
         public Ellipse EntityOneCardinalZero; 
@@ -100,6 +101,7 @@ namespace ER_W
                     Window.cardinalNumberEntityTwoCombobox.SelectedIndex = 2;
 
                 Window.EntityPropertiesVisibility(Visibility.Hidden);
+                Window.AttributePropertiesVisibility(Visibility.Hidden);
                 Window.RelationPropertiesVisibility(Visibility.Visible);
             }
         }
@@ -139,16 +141,24 @@ namespace ER_W
                 Content = "",
                 Width = labelWidth,
                 Height = labelHeight,
-                //Background = new SolidColorBrush(Colors.Transparent)
+                Background = new SolidColorBrush(Colors.Transparent),
+                HorizontalContentAlignment = HorizontalAlignment.Center
             };
             Canvas.SetLeft(RhombusImage, PositionX);
             Canvas.SetTop(RhombusImage, PositionY);
-            Canvas.SetLeft(TypeLabel, PositionX + labelWidth);
-            Canvas.SetTop(TypeLabel, PositionY + labelHeight - labelHeight / 2);
+            Canvas.SetLeft(TypeLabel, PositionX + labelWidth / 2);
+            Canvas.SetTop(TypeLabel, PositionY + labelHeight / 2);
+            Canvas.SetZIndex(RhombusImage, (int)2);
+            Canvas.SetZIndex(TypeLabel, (int)1);
             Canvas.Children.Add(RhombusImage);
             Canvas.Children.Add(LineOne);
             Canvas.Children.Add(LineTwo);
             Canvas.Children.Add(TypeLabel);
+
+            foreach (var attribute in Attributes)
+            {
+                Canvas.SetZIndex(attribute.line, -50);
+            }
 
             this.UpdateConnection();
         }
@@ -187,10 +197,11 @@ namespace ER_W
 
             differenceX = this.PositionX - differenceX;
             differenceY = this.PositionY - differenceY;
+
             Canvas.SetLeft(Relation.SelectedRelation.RhombusImage, PositionX);
             Canvas.SetTop(Relation.SelectedRelation.RhombusImage, PositionY);
-            Canvas.SetLeft(this.TypeLabel, PositionX + labelWidth);
-            Canvas.SetTop(this.TypeLabel, PositionY + labelHeight - labelHeight / 2);
+            Canvas.SetLeft(this.TypeLabel, PositionX + labelWidth / 2);
+            Canvas.SetTop(this.TypeLabel, PositionY + labelHeight / 2);
 
             this.UpdateConnection();
 
@@ -278,13 +289,13 @@ namespace ER_W
                 return;
             Point midpoint = new Point();
 
-            midpoint.X = (p1.X + p2.X) / 2 - 15;
-            midpoint.Y = (p1.Y + p2.Y) / 2 - 15;
+            midpoint.X = (p1.X + p2.X) / 2 - cardinalZeroWidth / 2;
+            midpoint.Y = (p1.Y + p2.Y) / 2 - cardinalZeroHeight / 2;
 
             circle.Stroke = Brushes.Black;
             circle.StrokeThickness = 2;
-            circle.Width = 30;
-            circle.Height = 30;
+            circle.Width = cardinalZeroWidth;
+            circle.Height = cardinalZeroHeight;
             Canvas.SetLeft(circle, midpoint.X);
             Canvas.SetTop(circle, midpoint.Y);
         }

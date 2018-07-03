@@ -18,9 +18,12 @@ namespace ER_W
         private const int distanceFromRelation = 200;
 
         private Ellipse ellipse;
-        private Line line;
-        public static RelationAttribute SelectedAttribute { get; set; }
+        public Line line;
+        private Label label;
+        private Border border;
 
+        public static RelationAttribute SelectedAttribute { get; set; }
+        public static RelationAttribute ChangeableAttribute { get; set; }
 
         public int Id { get; }
         public string Name { get; set; }
@@ -31,7 +34,7 @@ namespace ER_W
         {
             Id = RelationAttribute.attributesIDCounter++;
             Relation = relation;
-            Name = "";
+            Name = "Attribute: " + Id;
 
             this.DrawAttribute();
         }
@@ -46,7 +49,7 @@ namespace ER_W
                 StrokeThickness = 2,
                 Width = attributeWidth,
                 Height = attributeHeight,
-                Fill = Brushes.White
+                Fill = Brushes.Transparent
             };
             line = new Line()
             {
@@ -55,17 +58,37 @@ namespace ER_W
                 Fill = Brushes.Transparent,
                 X1 = this.Relation.PositionX + Relation.rhombusWidth / 2,
                 Y1 = this.Relation.PositionY + Relation.rhombusHeight / 2,
-                X2 = this.PositionX + attributeWidth / 2,
-                Y2 = this.PositionY + attributeHeight / 2
+                X2 = this.PositionX + attributeWidth / 2 - 5,
+                Y2 = this.PositionY + attributeHeight / 2 - 5
             };
+            label = new Label()
+            {
+                Content = this.Name,
+                Width = attributeWidth - 20,
+                Height = attributeHeight - 20,
+                Background = new SolidColorBrush(Colors.White),
+                HorizontalContentAlignment = HorizontalAlignment.Center
+            };
+            border = new Border()
+            {
+                BorderThickness = new Thickness(10, 10, 10, 10),
+                BorderBrush = Brushes.White,
+                CornerRadius = new CornerRadius(200,200,200,200),
+                Width = attributeWidth,
+                Height = attributeHeight
+            };
+            border.Child = label;
+           
             Canvas.SetLeft(ellipse, PositionX);
             Canvas.SetTop(ellipse, PositionY);
-            Canvas.SetZIndex(ellipse, (int)1);            
+            Canvas.SetLeft(border, PositionX);
+            Canvas.SetTop(border, PositionY);
+            Canvas.SetZIndex(ellipse, (int)2);
+            Canvas.SetZIndex(border, (int)1);         
             Canvas.SetZIndex(line, (int)0);
-            //Canvas.SetZIndex(this.Relation.RhombusImage, (int)1);
             Canvas.Children.Add(ellipse);
             Canvas.Children.Add(line);
-
+            Canvas.Children.Add(border);
             ellipse.MouseDown += Attribute_MouseDown;
             ellipse.MouseUp += Attribute_MouseUp;
         }
@@ -73,11 +96,14 @@ namespace ER_W
         {
             if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
             {
+                RelationAttribute.ChangeableAttribute = this;
                 RelationAttribute.SelectedAttribute = this;
                 this.isMoveAttribute = true;
 
-                //Window.EntityPropertiesVisibility(Visibility.Visible);
-                //Window.RelationPropertiesVisibility(Visibility.Hidden);
+                Window.EntityPropertiesVisibility(Visibility.Hidden);
+                Window.RelationPropertiesVisibility(Visibility.Hidden);
+                Window.AttributePropertiesVisibility(Visibility.Visible);
+                Window.attributeNameTxtbox.Text = this.Name;
             }
         }
 
@@ -102,15 +128,23 @@ namespace ER_W
 
             Canvas.SetLeft(this.ellipse, PositionX);
             Canvas.SetTop(this.ellipse, PositionY);
+            Canvas.SetLeft(border, PositionX);
+            Canvas.SetTop(border, PositionY);
             ConnectAttributeToRelation();
         }
 
         public void ConnectAttributeToRelation()
         {
             line.X1 = this.Relation.PositionX + Relation.rhombusWidth / 2;
-            line.Y1 = this.Relation.PositionY + Relation.rhombusHeight / 2 - 5;
+            line.Y1 = this.Relation.PositionY + Relation.rhombusHeight / 2;
             line.X2 = this.PositionX + attributeWidth / 2 - 5;
             line.Y2 = this.PositionY + attributeHeight / 2 - 5;
+        }
+
+        public void ChangeAttributeName(string newName)
+        {
+            this.Name = newName;
+            this.label.Content = newName;
         }
     }
 }
